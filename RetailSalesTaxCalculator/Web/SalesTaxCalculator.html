@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>NC Retail Sales Tax Caculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h2>NC Retail Sales Tax Caculator</h2><br /><br />
+        <form action="">
+            <div class="form-group text-center">
+                <label for="amount">Please enter Purchase Amount :</label>
+                <input type="number" id="txtAmount" min="1" required /><br>
+            </div>
+            <div class="form-group text-center">
+                <label for="zip">Please enter Zip Code :</label>
+                <input type="number" id="txtZip" min="1" max="99999" maxlength="5" required /> Use 27701 or 27401<br>
+            </div>
+            <div class="form-group text-center">
+                <label for="salesTax">Sales Tax :</label>
+                <input type="text" id="txtSalesTax" disabled /><br>
+            </div>
+            <div class="form-group text-center">
+                <label for="totalPrice">Total Price :</label>
+                <input type="text" id="txtTotalPrice" disabled /><br /><br>
+                <input type="button" value="Calculate" id="btnCalculate" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+<script src="scripts/jquery-3.6.0.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(":button").click(function () {
+			var amount = $("#txtAmount").val();
+			var zip = $("#txtZip").val();
+            var arg = "amount=" + amount + "&zip=" + zip;
+            var urlString = "/api/calculator/" + "Calculate/?" + arg;
+
+            $.ajax({
+                url: urlString,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    $("#txtSalesTax").val(result[0]);
+                    $("#txtTotalPrice").val(result[1]);
+                }
+
+            });
+        });
+
+    });
+</script>
